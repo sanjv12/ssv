@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF to Text Converter</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF to Text Converter</h1>
+        </header>
+        <main>
+            <form action="/convert" method="post" enctype="multipart/form-data">
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Choose a PDF file</button>
+                    <input type="file" name="pdf_file" accept=".pdf">
+                </div>
+                <button class="convert-btn" type="submit">Convert</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
