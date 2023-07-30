@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDF to Text Converter</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>PDF Text Extractor</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>PDF to Text Converter</h1>
-        </header>
-        <main>
-            <form action="/convert" method="post" enctype="multipart/form-data">
-                <div class="upload-btn-wrapper">
-                    <button class="btn">Choose a PDF file</button>
-                    <input type="file" name="pdf_file" accept=".pdf">
-                </div>
-                <button class="convert-btn" type="submit">Convert</button>
-            </form>
-        </main>
+    <div class="top-bar">
+        <div class="convertPDF">ConvertPDF</div>
+        <input type="file" id="pdfFileInput" style="display: none;">
+        <button onclick="document.getElementById('pdfFileInput').click();">File</button>
     </div>
+    <div class="output-container">
+        <h2>Extracted Text:</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        document.getElementById('pdfFileInput').addEventListener('change', function() {
+            const file = this.files[0];
+            const formData = new FormData();
+            formData.append('pdf_file', file);
+
+            fetch('/extract_text', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('output').innerText = text;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('output').innerText = 'An error occurred while processing the PDF.';
+            });
+        });
+    </script>
 </body>
 </html>
